@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigationModel
+  ns = "http://schemas.android.com?import=com.android.tools.idea.editors.navigation.model.*">
+  <locations  
+    class = "java.util.ArrayList">
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.ikeres.app.professorearthquake.MainActivity"/>
+      <point      
+        x = "160"      
+        y = "32"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.ikeres.app.professorearthquake.Main22Activity"/>
+      <point      
+        x = "1628"      
+        y = "400"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "com.ikeres.app.professorearthquake.Main2Activity"/>
+      <point      
+        x = "2104"      
+        y = "40"/>
+    </statePointEntry>
+  </locations>
+</navigationModel>
