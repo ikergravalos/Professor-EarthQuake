@@ -6,11 +6,19 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.net.URL;
+
+import java.net.URLEncoder;
 
 public class MainActivity extends AppCompatActivity {
+
+    String s = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_hour.geojson";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, Main22Activity.class));
+            }
+        });
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Main2Activity.class));
             }
         });
     }
