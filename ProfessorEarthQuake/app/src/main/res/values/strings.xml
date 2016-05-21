@@ -3,4 +3,8 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_main22">Main22Activity</string>
+    <string name="titulo">Buscar Terremotos</string>
+    <string name="menu_1">Por día</string>
+    <string name="menu_2">Por semana</string>
+    <string name="menu_3">Por mes</string>
 </resources>

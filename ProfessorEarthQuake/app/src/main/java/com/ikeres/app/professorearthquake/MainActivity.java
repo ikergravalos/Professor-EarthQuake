@@ -1,73 +1,144 @@
 package com.ikeres.app.professorearthquake;
 
-import android.content.Intent;
+import android.app.ListActivity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.util.Log;
+import android.widget.ListAdapter;
+import android.widget.SimpleAdapter;
+
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
-import java.net.URL;
 
-import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity {
 
-    String s = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_hour.geojson";
+public class MainActivity extends ListActivity {
+
+    // URL to get contacts JSON
+    private static String url = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
+
+    // JSON Node names
+    private static final String TAG_FEATURES = "features";
+    private static final String TAG_PROPERTIES = "properties";
+    private static final String TAG_LUGAR = "lugar";
+    private static final String TAG_MAGNITUD = "magnitud";
+    private static final String TAG_HORA = "hora";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Main22Activity.class));
-            }
-        });
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Main2Activity.class));
-            }
-        });
+        // Calling async task to get json
+        new GetTerremotos().execute();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    /**
+     * Async task class to get json by making HTTP call
+     */
+    private class GetTerremotos extends AsyncTask<Void, Void, Void> {
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        // Hashmap for ListView
+        ArrayList<HashMap<String, String>> terremotostList;
+        ProgressDialog pDialog;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Showing progress dialog
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage("Please wait...");
+            pDialog.setCancelable(false);
+            pDialog.show();
         }
 
-        return super.onOptionsItemSelected(item);
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            // Creating service handler class instance
+            WebRequest webreq = new WebRequest();
+
+            // Making a request to url and getting response
+            String jsonStr = webreq.makeWebServiceCall(url, WebRequest.GET);
+
+            Log.d("Response: ", "> " + jsonStr);
+
+            terremotostList = ParseJSON(jsonStr);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+            /**
+             * Updating parsed JSON data into ListView
+             * */
+            ListAdapter adapter = new SimpleAdapter(
+                    MainActivity.this, terremotostList,
+                    R.layout.list_item, new String[]{TAG_LUGAR, TAG_MAGNITUD,
+                    TAG_HORA}, new int[]{R.id.name,
+                    R.id.email, R.id.mobile});
+
+            setListAdapter(adapter);
+        }
+
     }
+
+    private ArrayList<HashMap<String, String>> ParseJSON(String json) {
+
+        if (json != null) {
+            try {
+                // Hashmap for ListView
+                ArrayList<HashMap<String, String>> hqList = new ArrayList<HashMap<String, String>>();
+
+                JSONObject jsonObj = new JSONObject(json);
+
+                // Getting JSON Array node
+                JSONArray terremotos = jsonObj.getJSONArray(TAG_FEATURES);
+
+                // looping through All HeartQuakes
+                for (int i = 0; i < terremotos.length(); i++) {
+                    JSONObject c = terremotos.getJSONObject(i);
+
+
+
+
+                    // Properties node is JSON Object
+                    JSONObject properties = c.getJSONObject(TAG_PROPERTIES);
+                    String lugar = properties.has(TAG_LUGAR) ? properties.getString(TAG_LUGAR) : null;
+                    String magnitud = properties.has(TAG_MAGNITUD) ? properties.getString(TAG_MAGNITUD) : null;
+                    String hora = properties.has(TAG_HORA) ? properties.getString(TAG_HORA) : null;
+
+
+                    // tmp hashmap for single hq
+                    HashMap<String, String> oterremoto = new HashMap<String, String>();
+
+                    // adding each child node to HashMap key => value
+                    oterremoto.put(TAG_LUGAR, lugar);
+                    oterremoto.put(TAG_MAGNITUD, magnitud);
+                    oterremoto.put(TAG_HORA, hora);
+
+
+                    // adding student to hq list
+                    hqList.add(oterremoto);
+                }
+                return hqList;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            Log.e("ServiceHandler", "Couldn't get any data from the url");
+            return null;
+        }
+    }
+
 }
