@@ -24,9 +24,9 @@ public class MainActivity extends ListActivity {
     // JSON Node names
     private static final String TAG_FEATURES = "features";
     private static final String TAG_PROPERTIES = "properties";
-    private static final String TAG_LUGAR = "lugar";
-    private static final String TAG_MAGNITUD = "magnitud";
-    private static final String TAG_HORA = "hora";
+    private static final String TAG_LUGAR = "place";
+    private static final String TAG_MAGNITUD = "mag";
+    private static final String TAG_HORA = "time";
 
 
     @Override
