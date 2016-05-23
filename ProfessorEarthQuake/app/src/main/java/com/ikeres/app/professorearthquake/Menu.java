@@ -22,8 +22,10 @@ public class Menu extends AppCompatActivity  {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
+        //Conectamos el activity con los botones del xml
         Toolbar toolbar =(Toolbar)findViewById(R.id.toolbar);
         bt1 =(Button)findViewById(R.id.hoy);
+        //Dependiendo de qué botón se clica, pasamos un extra al siguiente activity
         bt1.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 i = new Intent(Menu.this, MainActivity.class);
@@ -47,7 +49,7 @@ public class Menu extends AppCompatActivity  {
                 startActivity(i);
             }
         });
-
+        //Activamos el soporte para la Toolbar, ponemos título e icono
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Proffesor Hearthquake");
         getSupportActionBar().setIcon(R.drawable.icono);
@@ -55,13 +57,13 @@ public class Menu extends AppCompatActivity  {
     }
 
 
-
+        //Activamos el menú del toolbar
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
+    //configuramos los botones del menú del toolbar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent i;

@@ -19,28 +19,23 @@ public class WebRequest {
     public final static int GET = 1;
     public final static int POST = 2;
 
-    //Constructor with no parameter
+    //Contructor vacío
     public WebRequest() {
 
     }
-
     /**
-     * Making web service call
+     * Llamada al Web Service
      *
-     * @url - url to make request
-     * @requestmethod - http request method
+     * @url - url para hacer la petición
+     * @requestmethod - método de la petición http
+     * @params - parámetros de la petición http
      */
+
     public String makeWebServiceCall(String url, int requestmethod) {
         return this.makeWebServiceCall(url, requestmethod, null);
     }
 
-    /**
-     * Making service call
-     *
-     * @url - url to make request
-     * @requestmethod - http request method
-     * @params - http request params
-     */
+
     public String makeWebServiceCall(String urladdress, int requestmethod,
                                      HashMap<String, String> params) {
         URL url;

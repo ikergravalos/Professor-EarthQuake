@@ -21,11 +21,11 @@ public class MainActivity extends ListActivity {
 
 
 
-    // URL to get contacts JSON
+    // Creamos la URL
 
     private static String url;
 
-    // JSON Node names
+    // Nombres de los nodos del JSON
     private static final String TAG_FEATURES = "features";
     private static final String TAG_PROPERTIES = "properties";
     private static final String TAG_LUGAR = "place";
@@ -53,23 +53,23 @@ switch (nombre){
 
 }
 
-        // Calling async task to get json
+        // Llamando al async task para recoger el JSON
         new GetTerremotos().execute();
     }
 
     /**
-     * Async task class to get json by making HTTP call
+     * Clase asynctask para recoger el JSON haciendo una llamada HTTP
      */
     private class GetTerremotos extends AsyncTask<Void, Void, Void> {
 
-        // Hashmap for ListView
+        // Hashmap para el ListView
         ArrayList<HashMap<String, String>> terremotostList;
         ProgressDialog pDialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // Showing progress dialog
+            // Mostrar progress dialog
             pDialog = new ProgressDialog(MainActivity.this);
             pDialog.setMessage("Please wait...");
             pDialog.setCancelable(false);
@@ -78,10 +78,10 @@ switch (nombre){
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            // Creating service handler class instance
+            // Instanciar el service handler
             WebRequest webreq = new WebRequest();
 
-            // Making a request to url and getting response
+            // Llamada a url y obtención de respuesta
             String jsonStr = webreq.makeWebServiceCall(url, WebRequest.GET);
 
             Log.d("Response: ", "> " + jsonStr);
@@ -94,11 +94,11 @@ switch (nombre){
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            // Dismiss the progress dialog
+            // Quitamos el progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();
             /**
-             * Updating parsed JSON data into ListView
+             * Cargamos el JSON en el ListView
              * */
             ListAdapter adapter = new SimpleAdapter(
                     MainActivity.this, terremotostList,
@@ -115,38 +115,38 @@ switch (nombre){
 
         if (json != null) {
             try {
-                // Hashmap for ListView
+                // Hashmap para el ListView
                 ArrayList<HashMap<String, String>> hqList = new ArrayList<HashMap<String, String>>();
 
                 JSONObject jsonObj = new JSONObject(json);
 
-                // Getting JSON Array node
+                // Obtenemos el nodo Array del JSON
                 JSONArray terremotos = jsonObj.getJSONArray(TAG_FEATURES);
 
-                // looping through All HeartQuakes
+                // Recorremos todos los terremotos
                 for (int i = 0; i < terremotos.length(); i++) {
                     JSONObject c = terremotos.getJSONObject(i);
 
 
 
 
-                    // Properties node is JSON Object
+                    // el nodo "properties" del JSON es un objeto
                     JSONObject properties = c.getJSONObject(TAG_PROPERTIES);
                     String lugar = properties.has(TAG_LUGAR) ? properties.getString(TAG_LUGAR) : null;
                     String magnitud = properties.has(TAG_MAGNITUD) ? properties.getString(TAG_MAGNITUD) : null;
                     String hora = properties.has(TAG_HORA) ? properties.getString(TAG_HORA) : null;
 
 
-                    // tmp hashmap for single hq
+                    // Hashmap temporal para cada terremoto
                     HashMap<String, String> oterremoto = new HashMap<String, String>();
 
-                    // adding each child node to HashMap key => value
+                    // añadimos cada nodo hijo al HashMap
                     oterremoto.put(TAG_LUGAR, lugar);
                     oterremoto.put(TAG_MAGNITUD, magnitud);
                     oterremoto.put(TAG_HORA, hora);
 
 
-                    // adding student to hq list
+                    // añadimos un terremoto a la lista
                     hqList.add(oterremoto);
                 }
                 return hqList;
