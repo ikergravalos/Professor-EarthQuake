@@ -51,7 +51,7 @@ public class Menu extends AppCompatActivity  {
         });
         //Activamos el soporte para la Toolbar, ponemos título e icono
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Proffesor Hearthquake");
+        getSupportActionBar().setTitle("Professor Hearthquake");
         getSupportActionBar().setIcon(R.drawable.icono);
 
     }
