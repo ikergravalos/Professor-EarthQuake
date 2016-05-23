@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
@@ -18,21 +19,39 @@ import java.util.HashMap;
 
 public class MainActivity extends ListActivity {
 
+
+
     // URL to get contacts JSON
-    private static String url = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
+
+    private static String url;
 
     // JSON Node names
     private static final String TAG_FEATURES = "features";
     private static final String TAG_PROPERTIES = "properties";
     private static final String TAG_LUGAR = "place";
     private static final String TAG_MAGNITUD = "mag";
-    private static final String TAG_HORA = "time";
+    private static final String TAG_HORA = "type";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+        String nombre = getIntent().getStringExtra("filtro");
+switch (nombre){
+    case "hora":
+    url="http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
+    break;
+    case "dia" :
+        url="http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
+    break;
+    case "semana":
+        url="http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+    break;
+
+
+}
 
         // Calling async task to get json
         new GetTerremotos().execute();
@@ -84,8 +103,8 @@ public class MainActivity extends ListActivity {
             ListAdapter adapter = new SimpleAdapter(
                     MainActivity.this, terremotostList,
                     R.layout.list_item, new String[]{TAG_LUGAR, TAG_MAGNITUD,
-                    TAG_HORA}, new int[]{R.id.name,
-                    R.id.email, R.id.mobile});
+                    TAG_HORA}, new int[]{R.id.lugar,
+                    R.id.magnitud, R.id.hora});
 
             setListAdapter(adapter);
         }

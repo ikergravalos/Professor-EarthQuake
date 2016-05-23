@@ -6,12 +6,20 @@
 
     <!-- Name Label -->
     <TextView
-        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Lugar"
+        android:id="@+id/textView"
+        android:textSize="12sp"
+        />
+    <TextView
+        android:id="@+id/lugar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
         android:paddingTop="6dip"
-        android:text="Name"
+        android:text=""
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -20,17 +28,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Lugar"
-        android:id="@+id/textView"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:text="Magnitud"
+        android:id="@+id/textView2"
+        android:textSize="12sp"
+        />
 
     <TextView
-        android:id="@+id/email"
+        android:id="@+id/magnitud"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
-        android:text="Email"
+        android:text=""
         android:textSize="16sp"
         android:textStyle="bold"/>
 
@@ -39,27 +47,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Magnitud"
-        android:id="@+id/textView2"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:text="Tipo"
+        android:id="@+id/textView3"
+        android:textSize="12sp"
+        />
 
     <TextView
-        android:id="@+id/mobile"
+        android:id="@+id/hora"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:text="Mobile: "
+        android:text=""
         android:textSize="16sp"
         android:textStyle="bold"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Hora"
-        android:id="@+id/textView3"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
+
 
 </LinearLayout>
